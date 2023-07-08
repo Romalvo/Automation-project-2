@@ -65,7 +65,6 @@ describe('Issue create', () => {
           .first().find('[data-testid="avatar:Lord Gaben"]').should('be.visible');
       cy.get('[data-testid="list-issue"]')
           .first().find('[data-testid="icon:story"]').should('be.visible');
-
     });
   });
 
