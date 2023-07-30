@@ -68,4 +68,60 @@ describe('Issue comments creating, editing and deleting', () => {
             .find('[data-testid="issue-comment"]')
             .should('not.exist');
     });
-});
+
+    it('Should create,edit,and delete a comment successfully', () => {
+        const comment = 'TEST_COMMENT';
+
+        getIssueDetailsModal().within(() => {
+            cy.contains('Add a comment...')
+                .click();
+
+            cy.get('textarea[placeholder="Add a comment..."]').type(comment);
+            cy.contains('button', 'Save')
+                .click()
+                .should('not.exist');
+
+            cy.contains('Add a comment...').should('exist');
+            cy.get('[data-testid="issue-comment"]').should('contain', comment);
+        });
+    
+        const previousComment = 'TEST_COMMENT';
+        const commentedited = 'TEST_COMMENT_EDITED';
+        getIssueDetailsModal().within(() => {
+            cy.get('[data-testid="issue-comment"]')
+                .first()
+                .contains('Edit')
+                .click()
+                .should('not.exist');
+
+            cy.get('textarea[placeholder="Add a comment..."]')
+                .should('contain', previousComment)
+                .clear()
+                .type(commentedited);
+
+            cy.contains('button', 'Save')
+                .click()
+                .should('not.exist');
+
+            cy.get('[data-testid="issue-comment"]')
+                .should('contain', 'Edit')
+                .and('contain', commentedited);
+        });
+
+        getIssueDetailsModal()
+            .find('[data-testid="issue-comment"]')
+            .contains('Delete')
+            .click();
+
+        cy.get('[data-testid="modal:confirm"]')
+            .contains('button', 'Delete comment')
+            .click()
+            .should('not.exist');
+
+        getIssueDetailsModal()
+            .find('[data-testid="issue-comment"]')
+            .contains('TEST_COMMENT_EDITED')
+            .should('not.exist');
+        
+        });
+    });
