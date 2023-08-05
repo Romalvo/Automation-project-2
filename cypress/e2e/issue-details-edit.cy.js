@@ -62,4 +62,30 @@ describe('Issue details editing', () => {
   });
 
   const getIssueDetailsModal = () => cy.get('[data-testid="modal:issue-details"]');
+  it('Dropdown "Priority" functionality checking', () => {
+    const expectedLength = 5;
+    const getselectPriority = () => cy.get('[data-testid="select:priority"]');
+    const selectOption = '[data-testid="select:option"]'
+    let priorityArray = [];
+    
+    getIssueDetailsModal().within(() => {
+      getselectPriority().each(($option) => {
+        priorityArray.push($option.text());
+        cy.log(
+          `Added value: ${$option.text()}, Array length: ${priorityArray.length}`
+        )
+        }
+    )
+        .then(() => {
+          expect(priorityArray,length).to.equal(expectedLength);
+        });
+      })
+    
+  it('Should check reporter regex'), () => {
+      const regex =  /^[A-Za-z]*$/;
+      const reporter = '[data-testid="select:reporter"]';
+      getIssueDetailsModal()
+      cy.get(reporter).invoke('text'),should('match',regex);
+  };
+  })
 });
