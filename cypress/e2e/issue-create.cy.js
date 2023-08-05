@@ -148,7 +148,7 @@ describe('Issue create', () => {
     cy.contains('Issue has been successfully created.').should('not.exist');
 
     //Assert than only one list with name Backlog is visible and do steps inside of it
-    cy.get('[data-testid="board-list:backlog').should('be.visible').and('have.length', '1').within(() => {
+    cy.get('[data-testid="board-list:backlog"]').should('be.visible').and('have.length', '1').within(() => {
       cy.get('[data-testid="list-issue"]')
           .should('have.length', '5')
           .first()
